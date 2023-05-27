@@ -21,7 +21,7 @@ def find_data() -> None:
 
 def search(book: str, info: str) -> str:
     """Находит в списке записи по определенному критерию поиска"""
-    book = book.split('\n')
+    book = book.splitlines()
     results = []
     for contact in book:
         if info in contact:
@@ -35,5 +35,19 @@ def search(book: str, info: str) -> str:
     if len(results)==1:
         return "\n".join(results)
     return 'Совпадений не найдено'
+
+def edit_data():
+    """Позволяет изменить или удалить строку из справочника"""
+    with open('book.txt', 'r', encoding='utf-8') as file:
+        data = file.read()
+    print(data)
+    data_to_find = input('Введите данные для поиска редактируемой строки: ')
+    old_string = search(data, data_to_find)
+    print("введите новые данные или оставьте строку пустой для удаления")
+    new_string = input()
+    new_data = data.replace(old_string, new_string)
+    new_data = "".join([s for s in new_data.strip().splitlines(True) if s.strip()])
+    with open('book.txt', 'w', encoding='utf-8') as file:
+        file.write(new_data)
 
 
