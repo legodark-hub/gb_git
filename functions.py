@@ -11,7 +11,6 @@ def add_data() -> None:
     with open('book.txt', 'a', encoding='utf-8') as file:
         file.write(f'\n{fio} | {phone}')
 
-
 def find_data() -> None:
     """Печатает результат поиска по справочнику."""
     with open('book.txt', 'r', encoding='utf-8') as file:
@@ -20,11 +19,21 @@ def find_data() -> None:
     data_to_find = input('Введите данные для поиска: ')
     print(search(data, data_to_find))
 
-
 def search(book: str, info: str) -> str:
     """Находит в списке записи по определенному критерию поиска"""
     book = book.split('\n')
+    results = []
     for contact in book:
         if info in contact:
-            return contact
+            results.append(contact)
+    if len(results)>1:
+        results = "\n".join(results)
+        print(results)
+        print("уточните критерий поиска")
+        newinfo = input()
+        return search(results, newinfo)
+    if len(results)==1:
+        return "\n".join(results)
     return 'Совпадений не найдено'
+
+
